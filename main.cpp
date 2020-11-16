@@ -31,6 +31,13 @@ int main()
     //Print the queue
     mpq.print();
 
+    //Delete top element
+    mpq.dequeue();
+    std::cout << std::endl;
+
+    //Print
+    mpq.print();
+
     read.close();
     return 0;
 }
