@@ -18,7 +18,10 @@ public:
 		return item1 <= item2;
 	}
 };
+//END COMPARATORS
 
+
+//PRIORITYQUEUE:
 //template <typename data_type, typename cmp>
 template <typename Item_Type, typename Comparator>
 class PriorityQueue { //max priority queue for testing
@@ -48,16 +51,17 @@ private:
 		heap[i] = heap[replace_top]; //Bubble -- precondition to while()
 		bool in_range = true;        //In range index
 
-		//While bubble greater than both left and right child
+		//Make sure index in range and bubble is compared to left and right child
 		while (in_range
-			&& (heap[i] < heap[2 * i + 1] || heap[i] < heap[2 * i + 2])) {
-			if (heap[2 * i + 2] > heap[2 * i + 1]) { //right > left
+			   && (!cmp.compareItems(heap[i], heap[2 * i + 1])
+		       ||  !cmp.compareItems(heap[i], heap[2 * i + 2]))) {
+			if (cmp.compareItems(heap[2 * i + 2], heap[2 * i + 1])) { //right and left
 				temp = heap[2 * i + 2];        //Store right_child
 				heap[2 * i + 2] = heap[i]; //right_child is now bubble
 				heap[i] = temp;			   //Parent is now the bigger right_child
 				i = 2 * i + 2;			   //Bubble index is now right_child
 			}
-			else { //left_child > right_child
+			else { //left_child and right_child
 				temp = heap[2 * i + 1];    //Store left_child
 				heap[2 * i + 1] = heap[i]; //left_child is now bubble
 				heap[i] = temp;            //Parent is now the bigger left_child
@@ -106,4 +110,5 @@ public:
 		}
 	}
 };
+//END PRIORITYQUEUE
 #endif
