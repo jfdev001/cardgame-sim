@@ -45,32 +45,34 @@ private:
 	}
 
 	//Heap down
-	void heapDown(int replace_top) { //heap down for max heap
-		Item_Type temp;			     //Temporary variable for swapping elements
-		int i = 0;			         //Start index
-		heap[i] = heap[replace_top]; //Bubble -- precondition to while()
-		bool in_range = true;        //In range index
-
-		//Make sure index in range and bubble is compared to left and right child
-		while (in_range
-			   && (!cmp.compareItems(heap[i], heap[2 * i + 1])
-		       ||  !cmp.compareItems(heap[i], heap[2 * i + 2]))) {
-			if (cmp.compareItems(heap[2 * i + 2], heap[2 * i + 1])) { //right and left
-				temp = heap[2 * i + 2];        //Store right_child
-				heap[2 * i + 2] = heap[i]; //right_child is now bubble
-				heap[i] = temp;			   //Parent is now the bigger right_child
-				i = 2 * i + 2;			   //Bubble index is now right_child
-			}
-			else { //left_child and right_child
-				temp = heap[2 * i + 1];    //Store left_child
-				heap[2 * i + 1] = heap[i]; //left_child is now bubble
-				heap[i] = temp;            //Parent is now the bigger left_child
-				i = 2 * i + 1;             //Bubble index is now left_child
-			}
-			if (i >= num_ele) { //Index in bounds?
-				in_range = false;
-			}
-		}
+	void heapDown(int end) { //heap down for max heap
+		
+		//Extract element from the root
+		int cur = 0;
+		heap[cur] = heap[end];
+		Item_Type temp;
+		bool is_leaf = false;
+		
+		//while bubble is not a leaf and it is < any of its children
+		while (!is_leaf 
+		       && (!cmp.compareItems(heap[cur], heap[2*cur+1])
+		       ||!cmp.compareItems(heap[cur], heap[2*cur+2]))) {
+		   if (cmp.compareItems(heap[2*cur+1], heap[2*cur+2])) { //left over right
+				temp = heap[2*cur+1];
+				heap[2*cur+1] = heap[cur];
+				heap[cur] = temp;
+				cur = 2*cur+1; //Bubble (cur) is now in left child
+		   }
+		   else {
+			   	temp = heap[2*cur+2];
+				heap[2*cur+2] = heap[cur];
+				heap[cur] = temp;
+				cur = 2*cur+2; //Bubble (cur) is now in right child
+		   }
+		   if (2*cur+1 >= num_ele){ //check if leaf node
+			   is_leaf = true;
+		   }
+	    }
 	}
 
 public:
@@ -89,8 +91,9 @@ public:
 
 	//Remove highest priority item
 	void dequeue() {
-		heapDown(num_ele - 1); //Replace the top of the heap
-		num_ele--;			   //Decrement number of elements
+		std::cout << "Dequeued " << heap[0] << " ";
+	    num_ele--;		   //Decrement number of elements
+		heapDown(num_ele); //Replace the top of the heap
 	}
 
 	//True if queue is empty
@@ -106,7 +109,7 @@ public:
 	//Display items in heap index 0 to num_ele - 1
 	void print() {
 		for (int i = 0; i < num_ele; i++) {
-			std::cout << heap[i] << std::endl;
+			std::cout << heap[i];
 		}
 	}
 };

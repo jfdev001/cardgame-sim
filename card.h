@@ -11,8 +11,8 @@
 #include <iostream>
 
  // Enumerated type that represents the card suits
-enum suit { diamonds, spades, hearts, clubs }; //Default 0,1,2,3
-
+//enum suit { diamonds, spades, hearts, clubs }; //Default 0,1,2,3
+enum suit { spades, hearts };
 class Card
 {
 public:
